@@ -1,7 +1,7 @@
 # HPTR
 
 > **Real-Time Motion Prediction via Heterogeneous Polyline Transformer with Relative Pose Encoding**            
-> [Zhejun Zhang](https://zhejz.github.io/), [Alexander Liniger](https://scholar.google.com/citations?user=amb0lc0AAAAJ&hl=en), [Christos Sakaridis](http://people.ee.ethz.ch/~csakarid/), Fisher Yu, and [Luc Van Gool](https://scholar.google.com/citations?user=TwMib_QAAAAJ&hl=en).<br/>
+> [Zhejun Zhang](https://zhejz.github.io/), [Alexander Liniger](https://alexliniger.github.io/), [Christos Sakaridis](http://people.ee.ethz.ch/~csakarid/), Fisher Yu, and [Luc Van Gool](https://insait.ai/prof-luc-van-gool/).<br/>
 > 
 > To appear in NeurIPS 2023.<br/>
 > We are preparing the camera-ready paper and the code release. Please check back later!
@@ -12,7 +12,7 @@ The real-world deployment of an autonomous driving system requires its component
 
 <p align="center">
      <img src="docs/hptr_teaser.png" alt="HPTR for real-time and on-board motion prediction.", width=800px>
-     <br/>To efficiently predict the multi-modal future of numerous agents (1a), HPTR minimizes the computational overhead by: (1b) Sharing contexts among target agents. (1c) Reusing static contexts during online inference. (1d) Avoiding expensive post-processing and ensembling..
+     <br/>To efficiently predict the multi-modal future of numerous agents (1a), HPTR minimizes the computational overhead by: (1b) Sharing contexts among target agents. (1c) Reusing static contexts during online inference. (1d) Avoiding expensive post-processing and ensembling.
 </p>
 
 <p align="center">
