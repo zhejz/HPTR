@@ -1,7 +1,7 @@
 # HPTR
 
 > **Real-Time Motion Prediction via Heterogeneous Polyline Transformer with Relative Pose Encoding**            
-> [Zhejun Zhang](https://zhejz.github.io/), [Alexander Liniger](https://alexliniger.github.io/), [Christos Sakaridis](http://people.ee.ethz.ch/~csakarid/), Fisher Yu, and [Luc Van Gool](https://insait.ai/prof-luc-van-gool/).<br/>
+> [Zhejun Zhang](https://zhejz.github.io/), [Alexander Liniger](https://alexliniger.github.io/), [Christos Sakaridis](http://people.ee.ethz.ch/~csakarid/), Fisher Yu and [Luc Van Gool](https://vision.ee.ethz.ch/people-details.OTAyMzM=.TGlzdC8zMjcxLC0xOTcxNDY1MTc4.html).<br/>
 > 
 > To appear in NeurIPS 2023.<br/>
 > We are preparing the camera-ready paper and the code release. Please check back later!
