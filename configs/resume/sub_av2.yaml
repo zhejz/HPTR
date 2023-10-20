@@ -1,0 +1,32 @@
+checkpoint: null
+resume_trainer: True
+model_overrides:
+  n_video_batch: 0
+  post_processing:
+    to_dict:
+      _target_: data_modules.post_processing.ToDict
+      predictions: [pos, cov3, spd, vel, yaw_bbox]
+    get_cov_mat:
+      _target_: data_modules.post_processing.GetCovMat
+      rho_clamp: 5.0
+      std_min: -1.609
+      std_max: 5.0
+    waymo:
+      _target_: data_modules.waymo_post_processing.WaymoPostProcessing
+      k_pred: 6
+      use_ade: True
+      score_temperature: 0.5
+      mpa_nms_thresh: [] # veh, ped, cyc
+      gt_in_local: True
+  sub_womd:
+    _target_: utils.submission.SubWOMD
+    activate: False
+    method_name: METHOD_NAME
+    authors: [NAME1, NAME2]
+    affiliation: AFFILIATION
+    description: scr_womd
+    method_link: METHOD_LINK
+    account_name: ACCOUNT_NAME
+  sub_av2:
+    _target_: utils.submission.SubAV2
+    activate: True

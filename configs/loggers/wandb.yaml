@@ -1,0 +1,9 @@
+wandb:
+  _target_: pytorch_lightning.loggers.WandbLogger
+  project: debug
+  group: null
+  name: my_name
+  notes: my_notes
+  tags: []
+  job_type: train
+  entity: YOUR_ENTITY

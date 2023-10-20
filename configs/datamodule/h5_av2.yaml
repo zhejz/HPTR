@@ -1,0 +1,10 @@
+_target_: data_modules.data_h5_av2.DataH5av2
+
+data_dir: /cluster/scratch/zhejzhan/h5_av2_hptr
+filename_train: training
+filename_val: validation
+filename_test: testing
+n_agent: 64
+
+batch_size: 3
+num_workers: 4

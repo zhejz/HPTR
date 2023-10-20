@@ -1,0 +1,129 @@
+_target_: pl_modules.waymo_motion.WaymoMotion
+
+time_step_current: 10
+time_step_end: 90
+n_video_batch: 3
+interactive_challenge: False
+inference_cache_map: False
+inference_repeat_n: 1
+
+train_metric:
+  _target_: models.metrics.nll.NllMetrics
+  winner_takes_all: hard1 # none, or (joint) + hard + (1-6), or cmd
+  l_pos: nll_torch # nll_torch, nll_mtr, huber, l2
+  p_rand_train_agent: -1 # 0.2
+  n_step_add_train_agent: [-1, -1, -1] # -1 to turn off
+  focal_gamma_conf: [0.0, 0.0, 0.0] # 0.0 to turn off
+  w_conf: [1.0, 1.0, 1.0] # veh, ped, cyc
+  w_pos: [1.0, 1.0, 1.0]
+  w_yaw: [1.0, 1.0, 1.0]
+  w_vel: [1.0, 1.0, 1.0]
+  w_spd: [0, 0, 0]
+
+waymo_metric:
+  _target_: models.metrics.waymo.WaymoMetrics
+  n_max_pred_agent: 8
+
+pre_processing:
+  agent_centric:
+    _target_: data_modules.agent_centric.AgentCentricPreProcessing
+    mask_invalid: False
+    n_target: 8
+    n_other: 48
+    n_map: 512
+    n_tl: 24
+  ac_global:
+    _target_: data_modules.ac_global.AgentCentricGlobal
+    dropout_p_history: 0.15
+    use_current_tl: False
+    add_ohe: True
+    pl_aggr: False
+    pose_pe: # xy_dir, mpa_pl, pe_xy_dir, pe_xy_yaw
+      agent: xy_dir
+      map: mpa_pl
+      tl: mpa_pl
+
+post_processing:
+  to_dict:
+    _target_: data_modules.post_processing.ToDict
+    predictions: ${...model.decoder.mlp_head.predictions}
+  get_cov_mat:
+    _target_: data_modules.post_processing.GetCovMat
+    rho_clamp: 5.0
+    std_min: -1.609
+    std_max: 5.0
+  waymo:
+    _target_: data_modules.waymo_post_processing.WaymoPostProcessing
+    k_pred: 6
+    use_ade: True
+    score_temperature: -1
+    mpa_nms_thresh: [2.5, 1.0, 2.0] # veh, ped, cyc
+    gt_in_local: True
+
+model:
+  _target_: models.ac_global.AgentCentricGlobal
+  hidden_dim: 256
+  n_decoders: 1
+  tf_cfg:
+    n_head: 4
+    dropout_p: 0.1
+    norm_first: True
+    bias: True
+  intra_class_encoder:
+    add_learned_pe: True
+    use_point_net: False
+    n_layer_mlp: 3
+    mlp_cfg:
+      end_layer_activation: True
+      use_layernorm: False
+      use_batchnorm: False
+      dropout_p: null
+    n_layer_tf: -1
+  decoder:
+    _target_: models.ac_global.Decoder
+    n_latent_query: 192
+    n_layer_tf_all2all: 6
+    latent_query_use_tf_decoder: False # True: (cross+self)*n, False: cross+self*n
+    n_layer_tf_anchor: 8
+    n_pred: 6
+    latent_query:
+      use_agent_type: False
+      mode_emb: none # linear, mlp, add, none
+      mode_init: xavier # uniform, xavier
+      scale: 5.0
+    multi_modal_anchors:
+      use_agent_type: True
+      mode_emb: none # linear, mlp, add, none
+      mode_init: xavier # uniform, xavier
+      scale: 5.0
+    anchor_self_attn: True
+    mlp_head:
+      predictions: [pos, cov3] # keywords: pos, cov1/2/3, spd, vel, yaw_bbox
+      use_agent_type: False
+      flatten_conf_head: False
+      out_mlp_layernorm: False
+      out_mlp_batchnorm: False
+      n_step_future: 80
+    use_vmap: True
+
+# * optimizer
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 2e-4 # 2e-4, 1e-5
+lr_scheduler:
+  _target_: torch.optim.lr_scheduler.StepLR
+  gamma: 0.5
+  step_size: 20
+
+sub_womd:
+  _target_: utils.submission.SubWOMD
+  activate: False
+  method_name: METHOD_NAME
+  authors: [NAME1, NAME2]
+  affiliation: AFFILIATION
+  description: scr_womd
+  method_link: METHOD_LINK
+  account_name: ACCOUNT_NAME
+sub_av2:
+  _target_: utils.submission.SubAV2
+  activate: False

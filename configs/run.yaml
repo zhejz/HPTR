@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - trainer: womd
+  - model: scr_womd
+  - datamodule: h5_womd
+  - callbacks: wandb
+  - loggers: wandb
+  - resume: empty
+
+hydra:
+  run:
+    dir: logs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+work_dir: ${hydra:runtime.cwd}
+seed: 2023
+action: fit # fit, validate, test

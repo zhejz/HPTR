@@ -1,0 +1,3 @@
+checkpoint: null
+resume_trainer: True
+model_overrides: {}

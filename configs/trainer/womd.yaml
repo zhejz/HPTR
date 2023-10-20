@@ -1,0 +1,23 @@
+_target_: pytorch_lightning.Trainer
+
+limit_train_batches: 0.25
+limit_val_batches: 0.25
+limit_test_batches: 1.0
+num_sanity_val_steps: 0
+max_epochs: null
+min_epochs: null
+# max_time: 00:120:00:00
+
+log_every_n_steps: 200
+
+gradient_clip_val: 0.5
+track_grad_norm: 2
+gpus: -1
+precision: 32
+benchmark: False
+deterministic: False
+sync_batchnorm: False
+detect_anomaly: False
+accumulate_grad_batches: 1
+resume_from_checkpoint: null
+enable_progress_bar: True
