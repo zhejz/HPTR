@@ -21,6 +21,9 @@
 }
 ```
 
+## Updates
+- The model checkpoint for Argoverse 2 is available at this wandb artifact `zhejun/hptr_av2_ckpt/av2_ckpt:v0` ([wandb project](https://wandb.ai/zhejun/hptr_av2_ckpt)).
+- HPTR ranks 1st in minADE and 2nd in minFDE on the [WOMD Motion Prediction Leaderboard 2023](https://waymo.com/open/challenges/2023/motion-prediction/).
 
 
 ## Setup Environment
