@@ -168,7 +168,7 @@ def torch_pos2global(in_pos: Tensor, local_pos: Tensor, local_rot: Tensor) -> Te
     Returns:
         out_pos: [..., M, 2]
     """
-    return torch.matmul(in_pos, local_rot.transpose(-1, -2)) + local_pos
+    return torch.matmul(in_pos.double(), local_rot.transpose(-1, -2).double()) + local_pos.double()
 
 
 def torch_dir2local(in_dir: Tensor, local_rot: Tensor) -> Tensor:
