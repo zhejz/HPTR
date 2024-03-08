@@ -386,22 +386,28 @@ class IntraClassEncoder(nn.Module):
         # ! intra-class attention, c.f. Wayformer late fusion
         if self.tf_tl is not None:
             _tl_invalid = ~tl_valid
-            tl_emb, _ = self.tf_tl(src=tl_emb, src_padding_mask=_tl_invalid, tgt=tl_emb, tgt_padding_mask=_tl_invalid)
+            for mod in self.tf_tl:
+                tl_emb, _ = mod(
+                    src=tl_emb, src_padding_mask=_tl_invalid, tgt=tl_emb, tgt_padding_mask=_tl_invalid
+                )
         if self.tf_map is not None:
             _map_invalid = ~map_valid
-            map_emb, _ = self.tf_map(
-                src=map_emb, src_padding_mask=_map_invalid, tgt=map_emb, tgt_padding_mask=_map_invalid
-            )
+            for mod in self.tf_map:
+                map_emb, _ = mod(
+                    src=map_emb, src_padding_mask=_map_invalid, tgt=map_emb, tgt_padding_mask=_map_invalid
+                )
         if self.tf_other is not None:
             _other_invalid = ~other_valid
-            other_emb, _ = self.tf_other(
-                src=other_emb, src_padding_mask=_other_invalid, tgt=other_emb, tgt_padding_mask=_other_invalid
-            )
+            for mod in self.tf_other:
+                other_emb, _ = mod(
+                    src=other_emb, src_padding_mask=_other_invalid, tgt=other_emb, tgt_padding_mask=_other_invalid
+                )
         if self.tf_target is not None:
             _target_invalid = ~target_valid
-            target_emb, _ = self.tf_target(
-                src=target_emb, src_padding_mask=_target_invalid, tgt=target_emb, tgt_padding_mask=_target_invalid
-            )
+            for mod in self.tf_target:
+                target_emb, _ = mod(
+                    src=target_emb, src_padding_mask=_target_invalid, tgt=target_emb, tgt_padding_mask=_target_invalid
+                )
 
         emb = torch.cat([target_emb, other_emb, tl_emb, map_emb], dim=1)
         emb_invalid = ~torch.cat([target_valid, other_valid, tl_valid, map_valid], dim=1)
