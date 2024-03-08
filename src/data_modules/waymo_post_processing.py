@@ -100,14 +100,14 @@ class WaymoPostProcessing(nn.Module):
             waymo_scores = torch.zeros(
                 [n_scene, pred_dict["ref_idx_n"], self.k_pred], device=trajs.device, dtype=trajs.dtype
             )
-            waymo_scores[scene_indices, pred_dict["ref_idx"]] = scores  # [n_scene, n_agent, k_pred]
+            waymo_scores[scene_indices, pred_dict["ref_idx"]] = scores.double()  # [n_scene, n_agent, k_pred]
 
             waymo_valid = torch.zeros([n_scene, pred_dict["ref_idx_n"]], device=trajs.device, dtype=torch.bool)
             waymo_valid[scene_indices, pred_dict["ref_idx"]] = pred_dict["pred_valid"].squeeze(-1)
             waymo_valid = waymo_valid.unsqueeze(1).expand(-1, n_step, -1)  # [n_scene, n_step, n_agent]
         else:
             waymo_trajs = trajs.movedim(3, 1)  # [n_scene, n_step, n_agent, k_pred, 2]
-            waymo_scores = scores  # [n_scene, n_agent, k_pred]
+            waymo_scores = scores.double()  # [n_scene, n_agent, k_pred]
             waymo_valid = pred_dict["pred_valid"].unsqueeze(1).expand(-1, n_step, -1)  # [n_scene, n_step, n_agent]
 
         if pred_dict["pred_yaw_bbox"] is not None:
