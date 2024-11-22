@@ -7,6 +7,7 @@ model_checkpoint:
   save_last: True # additionaly always save model from last epoch
   mode: "min" # can be "max" or "min"
   verbose: True
+  save_only_best: True # if True, only save best model according to "monitor" metric
 
 lr_monitor:
   _target_: pytorch_lightning.callbacks.LearningRateMonitor
