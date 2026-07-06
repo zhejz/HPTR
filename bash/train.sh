@@ -9,7 +9,7 @@
 #SBATCH --gpus=rtx_2080_ti:4
 #SBATCH --open-mode=truncate
 
-trap "echo sigterm recieved, exiting!" SIGTERM
+trap "echo sigterm received, exiting!" SIGTERM
 
 DATASET_DIR="h5_womd_hptr" 
 run () {
